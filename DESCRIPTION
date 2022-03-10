@@ -1,0 +1,14 @@
+Package: InProgress
+Title: Need a name
+Version: 0.0.1
+Authors@R: c(person("Alexander", "Crane", email = "acrane@broadinstitute.org", role = c("aut", "cre")), 
+            person("Shu", "Zhang", email = "shu@broadinstitute.org", role = "aut"),
+    person("Frank", "Dubois", email = "fdubois@broadinstitute.org", role = "ctr"))
+Maintainer: Frank Dubois <fdubois@broadinstitute.org>
+Description: Somatic/Germline SV classifier
+License: GPL-2
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+RemoteType: github
+RemoteHost: api.github.com
