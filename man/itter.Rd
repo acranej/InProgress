@@ -7,6 +7,9 @@
 \format{
 \code{numeric}
 }
+\usage{
+itter
+}
 \description{
 Itteration value
 }

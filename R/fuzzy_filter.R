@@ -3,14 +3,14 @@
 #' @docType data
 #' @keywords data
 #' @format \code{numeric}
-NULL
+itter <- NULL
 
 #' Bedpe
 #' @name bed
 #' @docType data
 #' @keywords data
 #' @format \code{data.table}
-NULL
+bed <- NULL
 
 #' @name fuzzy_filter_germline
 #' @title Distance to closest germline annotator
@@ -24,7 +24,7 @@ NULL
 #' @import data.table 
 #' @importFrom parallel mclapply
 #' @export
-fuzzy_filter_germline <- function(itter, bed) {
+fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub <- bed[itter,]
   ## reorder for filtering
   if(sub$chrom1 > sub$chrom2) {

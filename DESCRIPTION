@@ -1,20 +1,23 @@
 Package: InProgress
 Title: Need a name
 Version: 0.0.1
-Authors@R: c(person("Alexander", "Crane", email = "acrane@broadinstitute.org", role = c("aut", "cre")), 
-            person("Shu", "Zhang", email = "shu@broadinstitute.org", role = "aut"),
+Authors@R: c(
+    person("Alexander", "Crane", email = "acrane@broadinstitute.org", role = c("aut", "cre")), 
+    person("Shu", "Zhang", email = "shu@broadinstitute.org", role = "aut"),
+    person("Simona", "Dalin", email = "sdalin@broadinstitute.org", role = "aut"),
     person("Frank", "Dubois", email = "fdubois@broadinstitute.org", role = "ctr"))
 Maintainer: Frank Dubois <fdubois@broadinstitute.org>
 Description: Somatic/Germline SV classifier.
 RemoteType: github
 RemoteHost: api.github.com
 Depends:
-  R (>= 3.5.0),
-  data.table (>= 1.10)
+    R (>= 3.5.0),
+    data.table (>= 1.10)
 Imports:
-  parallel
+    parallel
 Suggests:
-  testthat
+    testthat
 License: GPL-2
 LazyData: true
 RoxygenNote: 7.1.2
+Encoding: UTF-8

@@ -7,6 +7,9 @@
 \format{
 \code{data.table}
 }
+\usage{
+bed
+}
 \description{
 Bedpe
 }

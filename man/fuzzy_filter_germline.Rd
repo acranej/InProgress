@@ -4,7 +4,7 @@
 \alias{fuzzy_filter_germline}
 \title{Distance to closest germline annotator}
 \usage{
-fuzzy_filter_germline(itter, bed)
+fuzzy_filter_germline(itter = NULL, bed = NULL)
 }
 \arguments{
 \item{itter:}{passed from mclapply to iterate}
