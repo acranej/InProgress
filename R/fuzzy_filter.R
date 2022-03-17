@@ -1,35 +1,49 @@
-require(data.table)
-require(optparse)
-require(parallel)
+#' Itteration value
+#' @name itter
+#' @docType data
+#' @keywords data
+#' @format \code{numeric}
+NULL
 
-#' Germline filtering
+#' Bedpe
+#' @name bed
+#' @docType data
+#' @keywords data
+#' @format \code{data.table}
+NULL
+
 #' @name fuzzy_filter_germline
+#' @title Distance to closest germline annotator
+#' @param itter: passed from mclapply to iterate
+#' @param bed: Bedpe returned from annotate_sv function
+#' @return SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference
+#' @description 
 #' 
-#' @param i: passed from lapply to iterate
-#' @param bedpe: Manta Bedpe returned from annotate_sv function
-#' @return SV data table with columns added indicating germline or somatic, germline is defined as <=200bp away from agnostic perfect match in reference
-#' @description Determines if each SV should be considered germline by hard filtering
+#' Determines if each SV should be considered germline by hard filtering, used with wrapper function
+#' 
+#' @import data.table 
+#' @importFrom parallel mclapply
 #' @export
-fuzzy_filter_germline <- function(i, bed) {
-  sub <- bed[i,]
+fuzzy_filter_germline <- function(itter, bed) {
+  sub <- bed[itter,]
   ## reorder for filtering
-  if(sub$CHROM_A > sub$CHROM_B) {
-    sub_ord <- cbind(CHROM_A=sub$CHROM_B, START_A=sub$START_B, END_A=sub$END_B, CHROM_B=sub$CHROM_A, START_B=sub$START_A, END_B=sub$END_A, sub[,7:ncol(bed)])
-  } else if (sub$CHROM_A == sub$CHROM_B & sub$START_A > sub$START_B) {
-    sub_ord <- cbind(CHROM_A=sub$CHROM_B, START_A=sub$START_B, END_A=sub$END_B, CHROM_B=sub$CHROM_A, START_B=sub$START_A, END_B=sub$END_A, sub[,7:ncol(bed)])
+  if(sub$chrom1 > sub$chrom2) {
+    sub_ord <- cbind(chrom1=sub$chrom2, start1=sub$start2, end1=sub$end2, chrom2=sub$chrom1, start2=sub$start1, end2=sub$end1, sub[,7:ncol(bed)])
+  } else if (sub$chrom1 == sub$chrom2 & sub$start1 > sub$start2) {
+    sub_ord <- cbind(chrom1=sub$chrom2, start1=sub$start2, end1=sub$end2, chrom2=sub$chrom1, start2=sub$start1, end2=sub$end1, sub[,7:ncol(bed)])
   } else {
     sub_ord <- sub
   }
   ### change to integers to match reference germline
-  sub_ord[CHROM_A == "X", CHROM_A := 23]
-  sub_ord[CHROM_B == "X", CHROM_B := 23]
-  sub_ord[CHROM_A == "Y", CHROM_A := 24]
-  sub_ord[CHROM_B == "Y", CHROM_B := 24]
+  sub_ord[chrom1 == "X", chrom1 := 23]
+  sub_ord[chrom2 == "X", chrom2 := 23]
+  sub_ord[chrom1 == "Y", chrom1 := 24]
+  sub_ord[chrom2 == "Y", chrom2 := 24]
   ### subset reference to matching chromosome
-  ref_sub <- hg38_germline_gnomad[chrom1 == sub_ord$CHROM_A & chrom2 == sub_ord$CHROM_B]
+  ref_sub <- hg38_germline_gnomad[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
   ### calculate distances
-  ref_sub[,str_dist := abs(start - sub_ord$START_A)]
-  ref_sub[,end_dist := abs(end - sub_ord$START_B)]
+  ref_sub[,str_dist := abs(start - sub_ord$start1)]
+  ref_sub[,end_dist := abs(end - sub_ord$start2)]
   ref_sub[, tot_dist := (str_dist + end_dist)]
   ### choose closest match
   ref_min <- ref_sub[which.min(ref_sub$tot_dist)]
@@ -45,19 +59,3 @@ fuzzy_filter_germline <- function(i, bed) {
   }
   return(sub)
 }
-
-option_list <- list(
-  make_option(c("-i","--input"), type = "character", default = NULL, help = "Input file"),
-  make_option(c("-o","--output"), type = "character", default = NULL, help ="Output directory"),
-  make_option(c("-g","--germref"), type = "character", default = NULL, help = "Germline reference"),
-  make_option(c("-c","--cores"), type = "integer", default = 3, help = "Number of cores")
-)
-parseobj = OptionParser(option_list = option_list)
-opt = parse_args(parseobj)
-hg38_germline_gnomad <<- fread(paste0(opt$germref))
-input_bed = fread(paste0(opt$input))
-output_dir <- paste0(opt$output)
-
-bedpe_fuzzy_filtered <- rbindlist(mclapply(1:nrow(input_bed), fuzzy_filter_germline, input_bed, mc.cores = opt$cores))
-output_name <- paste0(output_dir, unlist(strsplit(opt$input, "/"))[length(unlist(strsplit(opt$input, "/")))], "_sv_hg38fuzzyfilter.bedpe")
-write.table(bedpe_fuzzy_filtered, output_name, sep = '\t', row.names = F, col.names = T, quote = F)

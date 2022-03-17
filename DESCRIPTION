@@ -5,10 +5,16 @@ Authors@R: c(person("Alexander", "Crane", email = "acrane@broadinstitute.org", r
             person("Shu", "Zhang", email = "shu@broadinstitute.org", role = "aut"),
     person("Frank", "Dubois", email = "fdubois@broadinstitute.org", role = "ctr"))
 Maintainer: Frank Dubois <fdubois@broadinstitute.org>
-Description: Somatic/Germline SV classifier
-License: GPL-2
-Encoding: UTF-8
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+Description: Somatic/Germline SV classifier.
 RemoteType: github
 RemoteHost: api.github.com
+Depends:
+  R (>= 3.5.0),
+  data.table (>= 1.10)
+Imports:
+  parallel
+Suggests:
+  testthat
+License: GPL-2
+LazyData: true
+RoxygenNote: 7.1.2
