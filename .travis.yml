@@ -1,0 +1,13 @@
+language: r
+warnings_are_errors: false
+sudo: false
+cache: packages
+r: 
+- oldrel
+- release
+r_packages:
+- data.table
+- parallel
+- testthat
+before_install:
+- export R_REMOTES_NO_ERRORS_FROM_WARNINGS=TRUE
