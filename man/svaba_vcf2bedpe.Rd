@@ -7,10 +7,10 @@
 svaba_vcf2bedpe(filepath = NULL)
 }
 \arguments{
-\item{file_path:}{file path to SVaBa VCF}
+\item{filepath}{file path to SVaBa VCF}
 }
 \value{
-bedpe
+A bedpe filtered from the VCF
 }
 \description{
 Converts SVaBa VCF to bedpe file format

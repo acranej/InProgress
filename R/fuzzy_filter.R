@@ -1,21 +1,18 @@
-#' Itteration value
-#' @name itter
-#' @docType data
-#' @keywords data
-#' @format \code{numeric}
-itter <- NULL
-
-#' Bedpe
-#' @name bed
+chrom1=chrom2=str_dist=end_dist=tot_dist=start=end=NULL
+#' gNOMAD dataset to fuzzy filter
+#'
+#' gNOMAd v2.1 control sites lifted over to hg38
+#' @name gnomad_germline_hg38all
 #' @docType data
 #' @keywords data
 #' @format \code{data.table}
-bed <- NULL
+hg38_germline_gnomad = fread(system.file('extdata', 'gnomad_germline_hg38all.txt', package = 'InProgress'))
+globalVariables(c("hg38_germline_gnomad", ":="))
 
 #' @name fuzzy_filter_germline
 #' @title Distance to closest germline annotator
-#' @param itter: passed from mclapply to iterate
-#' @param bed: Bedpe returned from annotate_sv function
+#' @param itter passed from mclapply to iterate
+#' @param bed Bedpe returned from annotate_sv function
 #' @return SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference
 #' @description 
 #' 
@@ -24,6 +21,7 @@ bed <- NULL
 #' @import data.table 
 #' @importFrom parallel mclapply
 #' @export
+
 fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub <- bed[itter,]
   ## reorder for filtering

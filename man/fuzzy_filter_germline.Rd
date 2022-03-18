@@ -7,9 +7,9 @@
 fuzzy_filter_germline(itter = NULL, bed = NULL)
 }
 \arguments{
-\item{itter:}{passed from mclapply to iterate}
+\item{itter}{passed from mclapply to iterate}
 
-\item{bed:}{Bedpe returned from annotate_sv function}
+\item{bed}{Bedpe returned from annotate_sv function}
 }
 \value{
 SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference

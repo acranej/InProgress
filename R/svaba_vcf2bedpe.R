@@ -1,7 +1,9 @@
+SPAN=INFO=uid=ID=EVDNC=NUMPARTS=SCTG=MAPQ=REPSEQ=HOMSEQ=HOMLEN=INSERTION=NDISC=SVMETHOD=FILTER=TUMALT=TUMOR=TUMCOV=TUMLOD=NORMCOV=NORMAL=NORMALT=NORMLOD=strand1=ALT=strand2=start2=chrom2=end1=start=seqnames=sid=mates_idx=which_mate=NULL
+globalVariables(":=")
 #' SVaBa vcf to bedpe
 #' @name svaba_vcf2bedpe
 #' @title Converts SVaBa VCFs to bedpe format
-#' @param file_path: file path to SVaBa VCF 
+#' @param filepath file path to SVaBa VCF 
 #' @return A bedpe filtered from the VCF
 #' @import data.table
 #' @importFrom parallel mclapply
