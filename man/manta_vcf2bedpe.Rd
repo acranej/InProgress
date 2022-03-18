@@ -4,10 +4,10 @@
 \alias{manta_vcf2bedpe}
 \title{Converts \href{https://github.com/Illumina/manta}{MANTA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format}
 \usage{
-manta_vcf2bedpe(path = NULL)
+manta_vcf2bedpe(filepath = NULL)
 }
 \arguments{
-\item{path}{file path to \href{https://github.com/Illumina/manta}{MANTA} vcf}
+\item{filepath}{file path to \href{https://github.com/Illumina/manta}{MANTA} vcf}
 }
 \value{
 SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format

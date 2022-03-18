@@ -1,4 +1,4 @@
-chrom1=chrom2=str_dist=end_dist=tot_dist=start=end=NULL
+chrom1=chrom2=str_dist=end_dist=gnomad_dist=start=end=NULL
 #' gNOMAD dataset to fuzzy filter
 #'
 #' gNOMAd v2.1 control sites lifted over to hg38
@@ -16,12 +16,10 @@ globalVariables("gnomad_germline_hg38all")
 #' @return SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference
 #' @description 
 #' 
-#' Determines if each SV should be considered germline by hard filtering, used with wrapper function
+#' Determines if each SV should be considered germline by hard filtering. Used with wrapper function.
 #' 
 #' @import data.table 
-#' @importFrom parallel mclapply
 #' @keywords internal
-
 fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub <- bed[itter,]
   ## reorder for filtering
@@ -40,20 +38,34 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   ### subset reference to matching chromosome
   ref_sub <- gnomad_germline_hg38all[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
   ### calculate distances
-  ref_sub[,str_dist := abs(start - sub_ord$start1)]
-  ref_sub[,end_dist := abs(end - sub_ord$start2)]
-  ref_sub[, tot_dist := (str_dist + end_dist)]
+  ref_sub[,str_dist := abs(start - as.numeric(as.character(sub_ord$start1)))]
+  ref_sub[,end_dist := abs(end - as.numeric(as.character(sub_ord$start2)))]
+  ref_sub[,gnomad_dist := (str_dist + end_dist)]
   ### choose closest match
-  ref_min <- ref_sub[which.min(ref_sub$tot_dist)]
-  sub <- cbind(sub, ref_min[,c(7:9)])
-  if (nrow(ref_min) < 1) {
-    sub$Filter[1] <- "Somatic"
-  } else if (ref_min$tot_dist > 1000 & sub$SPAN > 0 & sub$SPAN < 1000) {
-    sub$Filter[1] <- "Germline"
-  } else if (ref_min$tot_dist > 1000) {
-    sub$Filter[1] <-paste0("Somatic")
-  } else {
-    sub$Filter[1] <-paste0("Germline")
-  }
+  ref_min <- ref_sub[which.min(ref_sub$gnomad_dist)]
+  sub <- cbind(sub, ref_min[,c("gnomad_dist")])
   return(sub)
+}
+
+#' @name closest_germline
+#' @title Determines distance to nearest germline event
+#' @param bp \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} from \link[InProgress]{svaba_vcf2bedpe} or \link[InProgress]{manta_vcf2bedpe}
+#' @param cores Number of cores to run on, default is 1
+#' @return \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} with a column added for distance to nearest germline event
+#' @description 
+#' 
+#' Uses \href{https://gnomad.broadinstitute.org/downloads#v2-structural-variants}{gnomAD} to annotate the nearest germline event to each structural variant.
+#' For more information read \href{https://www.nature.com/articles/s41586-020-2287-8}{gnomAD blog}
+#' 
+#' @import data.table
+#' @importFrom parallel mclapply 
+#' @export
+closest_germline = function(bp = NULL, cores = 1) {
+  if(is.null(bp)) {
+    stop('NULL input')
+  }
+  cat("Annotating with known germline...")
+  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores))
+  cat("done.\n")
+  return(annotated_bedpe)
 }

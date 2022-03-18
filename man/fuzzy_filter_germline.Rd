@@ -15,6 +15,6 @@ fuzzy_filter_germline(itter = NULL, bed = NULL)
 SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference
 }
 \description{
-Determines if each SV should be considered germline by hard filtering, used with wrapper function
+Determines if each SV should be considered germline by hard filtering. Used with wrapper function.
 }
 \keyword{internal}

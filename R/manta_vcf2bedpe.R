@@ -64,16 +64,16 @@ bnd_matching = function(id, bnd) {
 #' Function to call for vcf to bedpe conversion
 #' @name manta_vcf2bedpe
 #' @title Converts \href{https://github.com/Illumina/manta}{MANTA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
-#' @param path file path to \href{https://github.com/Illumina/manta}{MANTA} vcf
+#' @param filepath file path to \href{https://github.com/Illumina/manta}{MANTA} vcf
 #' @return SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
 #' @description Creates a filtered \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} file from an input \href{https://github.com/Illumina/manta}{MANTA} vcf
 #' @import data.table
 #' @export
 #'
-manta_vcf2bedpe = function(path= NULL) {
+manta_vcf2bedpe = function(filepath= NULL) {
   cat("Converting VCF...\n")
   
-  vcf.input <- data.table::fread(cmd=paste("grep -v '^#'", path), sep='\t')
+  vcf.input <- data.table::fread(cmd=paste("grep -v '^#'", filepath), sep='\t')
   
   if (nrow(vcf.input) == 0) {stop(sprintf('This file is empty!'))}
   
