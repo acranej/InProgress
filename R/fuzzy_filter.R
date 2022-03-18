@@ -7,7 +7,7 @@ chrom1=chrom2=str_dist=end_dist=tot_dist=start=end=NULL
 #' @keywords data
 #' @format \code{data.table}
 hg38_germline_gnomad = fread(system.file('extdata', 'gnomad_germline_hg38all.txt', package = 'InProgress'))
-globalVariables(c("hg38_germline_gnomad", ":="))
+globalVariables("hg38_germline_gnomad")
 
 #' @name fuzzy_filter_germline
 #' @title Distance to closest germline annotator

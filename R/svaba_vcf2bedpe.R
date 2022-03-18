@@ -6,7 +6,6 @@ globalVariables(":=")
 #' @param filepath file path to SVaBa VCF 
 #' @return A bedpe filtered from the VCF
 #' @import data.table
-#' @importFrom parallel mclapply
 #' @description Converts SVaBa VCF to bedpe file format
 #' @export
 
