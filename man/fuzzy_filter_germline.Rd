@@ -17,3 +17,4 @@ SV data table with columns added indicating germline or somatic, germline is def
 \description{
 Determines if each SV should be considered germline by hard filtering, used with wrapper function
 }
+\keyword{internal}

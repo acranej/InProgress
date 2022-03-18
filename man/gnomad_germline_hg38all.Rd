@@ -3,15 +3,15 @@
 \docType{data}
 \name{gnomad_germline_hg38all}
 \alias{gnomad_germline_hg38all}
-\alias{hg38_germline_gnomad}
 \title{gNOMAD dataset to fuzzy filter}
 \format{
 \code{data.table}
 }
 \usage{
-hg38_germline_gnomad
+gnomad_germline_hg38all
 }
 \description{
 gNOMAd v2.1 control sites lifted over to hg38
 }
 \keyword{data}
+\keyword{internal}

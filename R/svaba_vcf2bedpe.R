@@ -2,11 +2,11 @@ SPAN=INFO=uid=ID=EVDNC=NUMPARTS=SCTG=MAPQ=REPSEQ=HOMSEQ=HOMLEN=INSERTION=NDISC=S
 globalVariables(":=")
 #' SVaBa vcf to bedpe
 #' @name svaba_vcf2bedpe
-#' @title Converts SVaBa VCFs to bedpe format
-#' @param filepath file path to SVaBa VCF 
-#' @return A bedpe filtered from the VCF
+#' @title Converts \href{https://github.com/walaj/svaba}{SVABA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
+#' @param filepath file path to \href{https://github.com/walaj/svaba}{SVABA} VCF 
+#' @return SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
 #' @import data.table
-#' @description Converts SVaBa VCF to bedpe file format
+#' @description Converts \href{https://github.com/walaj/svaba}{SVABA} VCF to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} file format
 #' @export
 
 svaba_vcf2bedpe = function(filepath = NULL) {
@@ -131,6 +131,7 @@ svaba_vcf2bedpe = function(filepath = NULL) {
   bedpe <- as.data.table(temp_bedpe)
   ### remove those less than 50bp in SPAN
   bedpe_final <- bedpe[as.numeric(as.character(SPAN)) >=50 | as.numeric(as.character(SPAN)) == -1]
+  bedpe_final[,svtype := ifelse(chrom1 == chrom2, ifelse(strand1 == strand2, ifelse(strand1 == '+', "h2hINV", "t2tINV"), ifelse(strand2 == "+", "DUP", "DEL")),"INTER")]
   return(bedpe_final)
 }
 

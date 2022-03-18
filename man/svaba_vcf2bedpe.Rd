@@ -2,18 +2,18 @@
 % Please edit documentation in R/svaba_vcf2bedpe.R
 \name{svaba_vcf2bedpe}
 \alias{svaba_vcf2bedpe}
-\title{Converts SVaBa VCFs to bedpe format}
+\title{Converts \href{https://github.com/walaj/svaba}{SVABA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format}
 \usage{
 svaba_vcf2bedpe(filepath = NULL)
 }
 \arguments{
-\item{filepath}{file path to SVaBa VCF}
+\item{filepath}{file path to \href{https://github.com/walaj/svaba}{SVABA} VCF}
 }
 \value{
-A bedpe filtered from the VCF
+SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
 }
 \description{
-Converts SVaBa VCF to bedpe file format
+Converts \href{https://github.com/walaj/svaba}{SVABA} VCF to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} file format
 }
 \details{
 SVaBa vcf to bedpe

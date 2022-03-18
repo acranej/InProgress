@@ -2,18 +2,18 @@
 % Please edit documentation in R/manta_vcf2bedpe.R
 \name{manta_vcf2bedpe}
 \alias{manta_vcf2bedpe}
-\title{Manta vcf to bedpe converter}
+\title{Converts \href{https://github.com/Illumina/manta}{MANTA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format}
 \usage{
 manta_vcf2bedpe(path = NULL)
 }
 \arguments{
-\item{path}{file path to vcf}
+\item{path}{file path to \href{https://github.com/Illumina/manta}{MANTA} vcf}
 }
 \value{
-SV data table in bedpe format
+SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
 }
 \description{
-Creates a filtered SV bedpe file from an input vcf
+Creates a filtered \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} file from an input \href{https://github.com/Illumina/manta}{MANTA} vcf
 }
 \details{
 Function to call for vcf to bedpe conversion

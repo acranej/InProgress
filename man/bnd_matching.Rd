@@ -20,3 +20,4 @@ Pairs mate ids from vcf and constructs bedpe row for the SV
 \details{
 Read mate pairing for bedpe construction, internally used
 }
+\keyword{internal}

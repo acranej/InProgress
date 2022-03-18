@@ -7,7 +7,7 @@ MATE_ID=start1=end2=svtype=chrom1=chrom2=start2=end1=strand1=strand2=REF_1=REF_2
 #' @return SV data table with matched breakpoints
 #' @description Pairs mate ids from vcf and constructs bedpe row for the SV
 #' @import data.table
-#' @export
+#' @keywords internal
 #'
 bnd_matching = function(id, bnd) {
   which_mate_A <- bnd[grepl(id, name)]
@@ -63,10 +63,10 @@ bnd_matching = function(id, bnd) {
 #' 
 #' Function to call for vcf to bedpe conversion
 #' @name manta_vcf2bedpe
-#' @title Manta vcf to bedpe converter
-#' @param path file path to vcf
-#' @return SV data table in bedpe format
-#' @description Creates a filtered SV bedpe file from an input vcf
+#' @title Converts \href{https://github.com/Illumina/manta}{MANTA} VCFs to \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
+#' @param path file path to \href{https://github.com/Illumina/manta}{MANTA} vcf
+#' @return SV data table in \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} format
+#' @description Creates a filtered \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} file from an input \href{https://github.com/Illumina/manta}{MANTA} vcf
 #' @import data.table
 #' @export
 #'
@@ -95,11 +95,11 @@ manta_vcf2bedpe = function(path= NULL) {
     vcf.input[svtype == "BND", SPAN := -1] 
     vcf.input$seqnames <- gsub("chr", "",vcf.input$seqnames)
     
-    ### remove those that are not over 1000 bp
+    ### remove those that are not over 50 bp
     
     vcf.input_s <- vcf.input[as.numeric(SPAN) >= 50 | as.numeric(SPAN) == -1]
     
-    ### remove imprecise calls, these do not have homology 
+    ### remove imprecise calls 
     
     vcf.input_ss <- vcf.input_s[!(grepl("IMPRECISE", INFO))]
     

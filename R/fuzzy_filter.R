@@ -4,10 +4,10 @@ chrom1=chrom2=str_dist=end_dist=tot_dist=start=end=NULL
 #' gNOMAd v2.1 control sites lifted over to hg38
 #' @name gnomad_germline_hg38all
 #' @docType data
-#' @keywords data
+#' @keywords data internal
 #' @format \code{data.table}
-hg38_germline_gnomad = fread(system.file('extdata', 'gnomad_germline_hg38all.txt', package = 'InProgress'))
-globalVariables("hg38_germline_gnomad")
+gnomad_germline_hg38all = fread(system.file('extdata', 'gnomad_germline_hg38all.txt', package = 'InProgress'))
+globalVariables("gnomad_germline_hg38all")
 
 #' @name fuzzy_filter_germline
 #' @title Distance to closest germline annotator
@@ -20,7 +20,7 @@ globalVariables("hg38_germline_gnomad")
 #' 
 #' @import data.table 
 #' @importFrom parallel mclapply
-#' @export
+#' @keywords internal
 
 fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub <- bed[itter,]
@@ -38,7 +38,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub_ord[chrom1 == "Y", chrom1 := 24]
   sub_ord[chrom2 == "Y", chrom2 := 24]
   ### subset reference to matching chromosome
-  ref_sub <- hg38_germline_gnomad[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
+  ref_sub <- gnomad_germline_hg38all[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
   ### calculate distances
   ref_sub[,str_dist := abs(start - sub_ord$start1)]
   ref_sub[,end_dist := abs(end - sub_ord$start2)]
