@@ -43,8 +43,13 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   ref_sub[,gnomad_dist := (str_dist + end_dist)]
   ### choose closest match
   ref_min <- ref_sub[which.min(ref_sub$gnomad_dist)]
-  sub <- cbind(sub, ref_min[,c("gnomad_dist")])
-  return(sub)
+  if(nrow(ref_min) == 0) {
+    sub$gnomad_dist <- ""
+    return(sub)
+  } else {
+    sub <- cbind(sub, ref_min$gnomad_dist)
+    return(sub)
+  }
 }
 
 #' @name closest_germline
@@ -55,7 +60,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
 #' @description 
 #' 
 #' Uses \href{https://gnomad.broadinstitute.org/downloads#v2-structural-variants}{gnomAD} to annotate the nearest germline event to each structural variant.
-#' For more information read \href{https://www.nature.com/articles/s41586-020-2287-8}{gnomAD blog}
+#' For more information read \href{https://www.nature.com/articles/s41586-020-2287-8}{gnomAD blog}. Reference is in hg38.
 #' 
 #' @import data.table
 #' @importFrom parallel mclapply 
@@ -64,8 +69,8 @@ closest_germline = function(bp = NULL, cores = 1) {
   if(is.null(bp)) {
     stop('NULL input')
   }
-  cat("Annotating with known germline...")
-  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores))
+  cat("Comparing against known germline...")
+  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores), use.names = FALSE)
   cat("done.\n")
   return(annotated_bedpe)
 }
