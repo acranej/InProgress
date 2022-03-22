@@ -16,5 +16,5 @@ closest_germline(bp = NULL, cores = 1)
 }
 \description{
 Uses \href{https://gnomad.broadinstitute.org/downloads#v2-structural-variants}{gnomAD} to annotate the nearest germline event to each structural variant.
-For more information read \href{https://www.nature.com/articles/s41586-020-2287-8}{gnomAD blog}
+For more information read \href{https://www.nature.com/articles/s41586-020-2287-8}{gnomAD blog}. Reference is in hg38.
 }

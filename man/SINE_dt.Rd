@@ -11,7 +11,7 @@
 SINE_dt
 }
 \description{
-repeat masker line elements in hg38
+repeat masker sine elements in hg38
 }
 \keyword{data}
 \keyword{internal}
