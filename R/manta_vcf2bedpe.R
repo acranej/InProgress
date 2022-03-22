@@ -71,7 +71,7 @@ bnd_matching = function(id, bnd) {
 #' @export
 #'
 manta_vcf2bedpe = function(filepath= NULL) {
-  cat("Converting VCF...\n")
+  cat("Reading manta vcf...")
   
   vcf.input <- data.table::fread(cmd=paste("grep -v '^#'", filepath), sep='\t')
   
@@ -167,7 +167,8 @@ manta_vcf2bedpe = function(filepath= NULL) {
     bnd_ <- vcf.input_com_chrom_sss[svtype == "BND"]
     
     bnd_[,MATE_ID := unlist(strsplit(unlist(strsplit(INFO, "MATEID="))[2],"[;]"))[1], by = "name"]
-    cat('Matching breakends...\n')
+    cat("done.\n")
+    cat('Building bedpe...')
     bnd_bed <- lapply(bnd_$name, bnd_matching, bnd = bnd_)
     bnd_bed <- rbindlist(bnd_bed)
     
@@ -193,5 +194,6 @@ manta_vcf2bedpe = function(filepath= NULL) {
     bedpe$end1 <- as.numeric(as.character(bedpe$end1))
     bedpe$end2 <- as.numeric(as.character(bedpe$end2))
   }
+  cat("done.\n")
   return(as.data.table(bedpe))
 }

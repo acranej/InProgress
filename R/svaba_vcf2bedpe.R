@@ -13,6 +13,7 @@ svaba_vcf2bedpe = function(filepath = NULL) {
   if (!file.exists(filepath)) {
     print(paste("File does not exist",filepath))
   }
+  cat("Reading svaba vcf...")
   vcf_dt <- fread(cmd=paste("grep -v '^#'", filepath),sep='\t')
   
   # Set colnames of vcf_dt to standard...
@@ -75,7 +76,8 @@ svaba_vcf2bedpe = function(filepath = NULL) {
   
   vcf_dt[, mates_idx := unlist(strsplit(ID, ":"))[1], by = "ID"]
   vcf_dt[, which_mate := unlist(strsplit(ID, ":"))[2], by = "ID"]
-  
+  cat("done.\n")
+  cat("Building bedpe...")
   temp_bedpe <- NULL
   removed_bnd <- NULL
   for(i in 1:length(unique(vcf_dt$mates_idx))){
@@ -132,6 +134,7 @@ svaba_vcf2bedpe = function(filepath = NULL) {
   ### remove those less than 50bp in SPAN
   bedpe_final <- bedpe[as.numeric(as.character(SPAN)) >=50 | as.numeric(as.character(SPAN)) == -1]
   bedpe_final[,svtype := ifelse(chrom1 == chrom2, ifelse(strand1 == strand2, ifelse(strand1 == '+', "h2hINV", "t2tINV"), ifelse(strand2 == "+", "DUP", "DEL")),"INTER")]
+  cat("done.\n")
   return(bedpe_final)
 }
 
