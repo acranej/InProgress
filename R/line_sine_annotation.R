@@ -68,10 +68,10 @@ find_closest_match_line = function(i, bedpe_l){
   line_min<-ref_sub[which.min(ref_sub$line_dist),]
   
   if(nrow(line_min) == 0) {
-    row_l$line_dist <- ""
+    row_l <- cbind(row_l, line_dist = "")
     return(row_l)
   } else {
-    return(cbind(row_l, line_min$line_dist))
+    return(cbind(row_l, line_dist = line_min$line_dist))
   }
 }
 
@@ -98,10 +98,10 @@ find_closest_match_sine = function(i, bedpe_s){
   sine_min<-ref_sub[which.min(ref_sub$sine_dist),]
   
   if(nrow(sine_min) == 0) {
-    row_s$sine_dist <- ""
+    row_s <- cbind(row_s, sine_dist = "")
     return(row_s)
   } else {
-    return(cbind(row_s, sine_min$sine_dist))
+    return(cbind(row_s, sine_dist = sine_min$sine_dist))
   }
 }
 
@@ -130,11 +130,11 @@ closest_line_sine = function(bp = NULL, cores = 1) {
   cat("done.\n")
   
   cat("Comparing against LINE elements...")
-  line_annotated <- rbindlist(mclapply(1:nrow(bp_ord), find_closest_match_line, bp_ord, mc.cores = cores), use.names = FALSE)
+  line_annotated <- rbindlist(mclapply(1:nrow(bp_ord), find_closest_match_line, bp_ord, mc.cores = cores))
   cat("done.\n")
   
   cat("Comparing against SINE elements...")
-  sine_line_annotated <- rbindlist(mclapply(1:nrow(line_annotated), find_closest_match_sine, line_annotated, mc.cores = cores), use.names = FALSE)
+  sine_line_annotated <- rbindlist(mclapply(1:nrow(line_annotated), find_closest_match_sine, line_annotated, mc.cores = cores))
   cat("done.\n")
   
   return(sine_line_annotated)

@@ -44,10 +44,10 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   ### choose closest match
   ref_min <- ref_sub[which.min(ref_sub$gnomad_dist)]
   if(nrow(ref_min) == 0) {
-    sub$gnomad_dist <- ""
+    sub <- cbind(sub, gnomad_dist = "")
     return(sub)
   } else {
-    sub <- cbind(sub, ref_min$gnomad_dist)
+    sub <- cbind(sub, gnomad_dist = ref_min$gnomad_dist)
     return(sub)
   }
 }
@@ -70,7 +70,7 @@ closest_germline = function(bp = NULL, cores = 1) {
     stop('NULL input')
   }
   cat("Comparing against known germline...")
-  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores), use.names = FALSE)
+  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores))
   cat("done.\n")
   return(annotated_bedpe)
 }
