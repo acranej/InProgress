@@ -10,10 +10,10 @@ find_exon_overlap(bed_e = NULL)
 \item{bed_e}{bedpe row}
 }
 \value{
-\code{GRanges} of genes
+\code{GRanges} of exonsss
 }
 \description{
-Determines if an SV is overlapping any genes
+Determines if an SV is overlapping any exons
 }
 \details{
 Exon overlap

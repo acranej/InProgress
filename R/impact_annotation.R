@@ -34,7 +34,6 @@ hg38_ensembl_exonlocations = readRDS(system.file("extdata","hg38_ensembl_exonloc
 #' @keywords internal
 #' 
 
-
 find_gene_overlap = function(bed_g = NULL) {
   
 }
@@ -43,10 +42,10 @@ find_gene_overlap = function(bed_g = NULL) {
 #' @name find_exon_overlap
 #' @title SV occurance in exons
 #' @param bed_e bedpe row
-#' @return \code{GRanges} of genes
+#' @return \code{GRanges} of exonsss
 #' @description 
 #'
-#' Determines if an SV is overlapping any genes
+#' Determines if an SV is overlapping any exons
 #' 
 #' @import data.table
 #' @import GenomicRanges
@@ -58,6 +57,14 @@ find_exon_overlap = function(bed_e = NULL) {
   
 }
 
+##' @name impact_annotation
+##' @title 
+##'
+##'
+
+#impact_annotation = function(i, bed) {
+  
+#}
 
 
 
