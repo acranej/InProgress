@@ -10,9 +10,14 @@ Maintainer: Frank Dubois <fdubois@broadinstitute.org>
 Description: Somatic/Germline SV classifier.
 RemoteType: github
 RemoteHost: api.github.com
+Remotes:
+    github::mskilab/gUtils,
+    bioc::3.10/GenomicRanges
 Depends:
     R (>= 3.5.0),
-    data.table (>= 1.10)
+    data.table (>= 1.10),
+    gUtils,
+    GenomicRanges
 Imports:
     parallel
 Suggests:
