@@ -3,7 +3,7 @@
 \docType{data}
 \name{hg38_gencode_genelocations}
 \alias{hg38_gencode_genelocations}
-\title{Ensembl gene coordinates}
+\title{Gencode gene coordinates, subset to protein coding}
 \format{
 \code{data.table}
 }

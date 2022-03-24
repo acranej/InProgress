@@ -2,9 +2,11 @@
 
 export(closest_germline)
 export(closest_line_sine)
+export(funct_annot)
 export(manta_vcf2bedpe)
 export(svaba_vcf2bedpe)
 import(GenomicRanges)
+import(IRanges)
 import(data.table)
 import(gUtils)
 importFrom(parallel,mclapply)

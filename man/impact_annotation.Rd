@@ -17,3 +17,4 @@ row with annotation column
 \description{
 Determines if an SV is Translocation, Non-protein coding, intron, CN, or coding
 }
+\keyword{internal}
