@@ -1,4 +1,4 @@
-str1_dist_l=start1_dist_s=str2_dist_l=start2_dist_s=line_dist=sine_dist=NULL
+str1_dist_l=str1_dist_s=str2_dist_l=str2_dist_s=line_dist=sine_dist=NULL
 #' Line repeatmaskers
 #'
 #' repeat masker line elements in hg38
