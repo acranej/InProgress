@@ -17,10 +17,11 @@ Depends:
     R (>= 4.0.0),
     data.table (>= 1.10),
     gUtils,
-    GenomicRanges
-Imports:
-    BiocGenerics(>= 0.24),
+    GenomicRanges,
+    IRanges,
     parallel
+Imports:
+    BiocGenerics(>= 0.24)
 Suggests:
     testthat
 License: GPL-2
