@@ -57,14 +57,20 @@ find_exon_overlap = function(bed_e = NULL) {
   
 }
 
-##' @name impact_annotation
-##' @title 
-##'
-##'
+#' @name impact_annotation
+#' @title Clqssificatiion decision tree for annotation
+#' @param i itteration value
+#' @param bed file to be itterated over
+#' @return row with annotation column
+#' @description 
+#' 
+#' Determines if an SV is Translocation, Non-protein coding, intronic, CN, or coding
+#'
 
-#impact_annotation = function(i, bed) {
+impact_annotation = function(i, bed) {
+  sub <- bed[i,]
   
-#}
+}
 
 
 
