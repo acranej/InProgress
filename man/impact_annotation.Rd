@@ -15,5 +15,5 @@ impact_annotation(i, bed)
 row with annotation column
 }
 \description{
-Determines if an SV is Translocation, Non-protein coding, intronic, CN, or coding
+Determines if an SV is Translocation, Non-protein coding, intron, CN, or coding
 }

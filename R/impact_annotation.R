@@ -2,12 +2,12 @@
 #' Ensembl gene coordinates
 #'
 #' Gene coordinates hg38
-#' @name hg38_ensembl_genelocations
+#' @name hg38_gencode_genelocations
 #' @docType data
 #' @keywords data internal
 #' @format \code{data.table}
 
-hg38_ensembl_genelocations = readRDS(system.file("extdata","hg38_ensembl_genelocations_formatted.rds", package = "InProgress"))
+hg38_gencode_genelocations = readRDS(system.file("extdata","hg38_geneRanges.rds", package = "InProgress"))
 
 #' Ensembl exon coordinates
 #'
@@ -17,13 +17,13 @@ hg38_ensembl_genelocations = readRDS(system.file("extdata","hg38_ensembl_geneloc
 #' @keywords data internal
 #' @format \code{data.table}
 
-hg38_ensembl_exonlocations = readRDS(system.file("extdata","hg38_ensembl_exonlocations_formatted.rds", package = "InProgress"))
+hg38_ensembl_exonlocations = readRDS(system.file("extdata","hg38_exonRanges.rds", package = "InProgress"))
 
 #' Gene overlap
 #' @name find_gene_overlap
 #' @title SV occurance in genes
 #' @param bed_g bedpe row
-#' @return \code{GRangesList} of genes
+#' @return \code{GRanges} of genes
 #' @description 
 #'
 #' Determines if an SV is overlapping any genes
@@ -64,7 +64,7 @@ find_exon_overlap = function(bed_e = NULL) {
 #' @return row with annotation column
 #' @description 
 #' 
-#' Determines if an SV is Translocation, Non-protein coding, intronic, CN, or coding
+#' Determines if an SV is Translocation, Non-protein coding, intron, CN, or coding
 #'
 
 impact_annotation = function(i, bed) {

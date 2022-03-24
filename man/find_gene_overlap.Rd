@@ -10,7 +10,7 @@ find_gene_overlap(bed_g = NULL)
 \item{bed_g}{bedpe row}
 }
 \value{
-\code{GRangesList} of genes
+\code{GRanges} of genes
 }
 \description{
 Determines if an SV is overlapping any genes
