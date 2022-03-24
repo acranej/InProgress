@@ -128,7 +128,10 @@ closest_line_sine = function(bp = NULL, cores = 1) {
   cat("Checking format...")
   bp_ord <- rbindlist(mclapply(1:nrow(bp), check_reformat, bp, mc.cores = cores))
   cat("done.\n")
-  
+  bp_ord[chrom1 == 23, chrom1 := "X"]
+  bp_ord[chrom2 == 23, chrom2 := "X"]
+  bp_ord[chrom1 == 24, chrom1 := "Y"]
+  bp_ord[chrom2 == 24, chrom2 := "Y"]
   cat("Comparing against LINE elements...")
   line_annotated <- rbindlist(mclapply(1:nrow(bp_ord), find_closest_match_line, bp_ord, mc.cores = cores))
   cat("done.\n")
