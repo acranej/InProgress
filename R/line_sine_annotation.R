@@ -2,21 +2,40 @@ str1_dist_l=str1_dist_s=str2_dist_l=str2_dist_s=line_dist=sine_dist=NULL
 #' Line repeatmaskers
 #'
 #' repeat masker line elements in hg38
-#' @name LINE_dt
+#' @name LINE_dt_hg38
 #' @docType data
 #' @keywords data internal
 #' @format \code{data.table}
-LINE_dt = readRDS(system.file('extdata', 'repeatmasker_hg38_LINE.bed', package = 'InProgress'))
+LINE_dt_hg38 = readRDS(system.file('extdata', 'repeatmasker_hg38_LINE.bed', package = 'InProgress'))
 
 
 #' Sine repeatmaskers
 #'
 #' repeat masker sine elements in hg38
-#' @name SINE_dt
+#' @name SINE_dt_hg38
 #' @docType data
 #' @keywords data internal
 #' @format \code{data.table}
-SINE_dt = readRDS(system.file('extdata', 'repeatmasker_hg38_SINE.bed', package = 'InProgress'))
+SINE_dt_hg38 = readRDS(system.file('extdata', 'repeatmasker_hg38_SINE.bed', package = 'InProgress'))
+
+#' Line repeatmaskers
+#'
+#' repeat masker line elements in hg19
+#' @name LINE_dt_hg19
+#' @docType data
+#' @keywords data internal
+#' @format \code{data.table}
+LINE_dt_hg19 = readRDS(system.file('extdata', 'repeat_masker_hg19_LINE.bed', package = 'InProgress'))
+
+
+#' Sine repeatmaskers
+#'
+#' repeat masker sine elements in hg19
+#' @name SINE_dt_hg19
+#' @docType data
+#' @keywords data internal
+#' @format \code{data.table}
+SINE_dt_hg19 = readRDS(system.file('extdata', 'repeat_masker_hg19_SINE.bed', package = 'InProgress'))
 
 #' Check format of bedpe
 #' @name check_reformat
@@ -24,7 +43,7 @@ SINE_dt = readRDS(system.file('extdata', 'repeatmasker_hg38_SINE.bed', package =
 #' @param i iteration value
 #' @param df bedpe to be passed 
 #' @return data.table that is ordered with lower position first
-#' @description Reorders foor acccurate distance calculation
+#' @description Reorders for accurate distance calculation
 #' @import data.table
 #' @keywords internal
 #' 
@@ -119,10 +138,20 @@ find_closest_match_sine = function(i, bedpe_s){
 #' @import data.table
 #' @importFrom parallel mclapply
 #' @export
-closest_line_sine = function(bp = NULL, cores = 1) {
+closest_line_sine = function(bp = NULL, genome = NULL, cores = 1) {
   
   if(is.null(bp)) {
     stop('NULL input')
+  }
+
+  if(as.character(genome) == 'hg19') {
+    LINE_dt = GRanges(LINE_dt_hg19$V1, IRanges(LINE_dt_hg19$V2, LINE_dt_hg19$V3))
+    SINE_dt = GRanges(SINE_dt_hg19$V1, IRanges(SINE_dt_hg19$V2, SINE_dt_hg19$V3))
+  } else if(as.character(genome) == 'hg38') {
+    LINE_dt = LINE_dt_hg38
+    SINE_dt = LINE_dt_hg38
+  } else {
+    stop('Please state hg19 or hg38 as genome')
   }
   
   cat("Checking format...")
