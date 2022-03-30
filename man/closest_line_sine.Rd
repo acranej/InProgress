@@ -4,7 +4,7 @@
 \alias{closest_line_sine}
 \title{Annotate LINE and SINE elements}
 \usage{
-closest_line_sine(bp = NULL, cores = 1)
+closest_line_sine(bp = NULL, genome = NULL, cores = 1)
 }
 \arguments{
 \item{bp}{\href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} from \link[InProgress]{svaba_vcf2bedpe} or \link[InProgress]{manta_vcf2bedpe}}

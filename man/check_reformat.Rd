@@ -15,7 +15,7 @@ check_reformat(i, df)
 data.table that is ordered with lower position first
 }
 \description{
-Reorders foor acccurate distance calculation
+Reorders for accurate distance calculation
 }
 \details{
 Check format of bedpe
