@@ -65,7 +65,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
 #' @title Determines distance to nearest germline event
 #' @param bp \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} from \link[InProgress]{svaba_vcf2bedpe} or \link[InProgress]{manta_vcf2bedpe}
 #' @param cores Number of cores to run on, default is 1
-#' @param genome run under hg19 oor hg38
+#' @param genome run under hg19 or hg38
 #' @return \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} with a column added for distance to nearest germline event
 #' @description 
 #' 
