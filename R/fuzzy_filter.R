@@ -7,7 +7,16 @@ chrom1=chrom2=str_dist=end_dist=gnomad_dist=start=end=NULL
 #' @keywords data internal
 #' @format \code{data.table}
 gnomad_germline_hg38all = fread(system.file('extdata', 'gnomad_germline_hg38all.txt', package = 'InProgress'))
-globalVariables("gnomad_germline_hg38all")
+
+#' gNOMAD dataset to fuzzy filter
+#'
+#' gNOMAd v2.1 control sites in hg19
+#' @name gnomad_germline_hg19all
+#' @docType data
+#' @keywords data internal
+#' @format \code{data.table}
+gnomad_germline_hg19all = fread(system.file('extdata', 'gnomad_germline_hg19all.txt', package = 'InProgress'))
+
 
 #' @name fuzzy_filter_germline
 #' @title Distance to closest germline annotator
@@ -36,7 +45,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub_ord[chrom1 == "Y", chrom1 := 24]
   sub_ord[chrom2 == "Y", chrom2 := 24]
   ### subset reference to matching chromosome
-  ref_sub <- gnomad_germline_hg38all[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
+  ref_sub <- gnomad_germline[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
   ### calculate distances
   ref_sub[,str_dist := abs(start - as.numeric(as.character(sub_ord$start1)))]
   ref_sub[,end_dist := abs(end - as.numeric(as.character(sub_ord$start2)))]
@@ -56,6 +65,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
 #' @title Determines distance to nearest germline event
 #' @param bp \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} from \link[InProgress]{svaba_vcf2bedpe} or \link[InProgress]{manta_vcf2bedpe}
 #' @param cores Number of cores to run on, default is 1
+#' @param genome run under hg19 oor hg38
 #' @return \href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} with a column added for distance to nearest germline event
 #' @description 
 #' 
@@ -65,10 +75,19 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
 #' @import data.table
 #' @importFrom parallel mclapply 
 #' @export
-closest_germline = function(bp = NULL, cores = 1) {
+closest_germline = function(bp = NULL, cores = 1, genome = NULL) {
   if(is.null(bp)) {
     stop('NULL input')
   }
+  
+  if(as.character(genome) == 'hg19') {
+    gnomad_germline = gnomad_germline_hg19all
+  } else if (as.character(genome) == 'hg38') {
+    gnomad_germline = gnomad_germline_hg38all
+  } else {
+    stop('Please state hg19 or hg38 as genome')
+  }
+  
   cat("Comparing against known germline...")
   annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores))
   cat("done.\n")
