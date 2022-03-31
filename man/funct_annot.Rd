@@ -4,10 +4,12 @@
 \alias{funct_annot}
 \title{Annotates SVs}
 \usage{
-funct_annot(bp = NULL, cores = 1)
+funct_annot(bp = NULL, genome = NULL, cores = 1)
 }
 \arguments{
 \item{bp}{bedpe file to annotate}
+
+\item{genome}{run under hg19 or hg38}
 
 \item{cores}{number of cores to run on, default is 1}
 }

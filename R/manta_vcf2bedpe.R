@@ -77,7 +77,7 @@ manta_vcf2bedpe = function(filepath= NULL) {
   
   if (nrow(vcf.input) == 0) {stop(sprintf('This file is empty!'))}
   
-  if (ncol(vcf.input)==10) {
+  if (ncol(vcf.input)>=10) {
     setnames(vcf.input, paste0("V",seq(1:10)), c("seqnames","start","name","REF",
                                                  "ALT","score","FILTER","INFO",
                                                  "FORMAT","OCILY12"))
@@ -193,7 +193,9 @@ manta_vcf2bedpe = function(filepath= NULL) {
     bedpe$start2 <- as.numeric(as.character(bedpe$start2))
     bedpe$end1 <- as.numeric(as.character(bedpe$end1))
     bedpe$end2 <- as.numeric(as.character(bedpe$end2))
+  } else {
+    stop("VCF format looks strange, cannot build bedpe.")
   }
   cat("done.\n")
-  return(as.data.table(bedpe))
+  return(bedpe)
 }

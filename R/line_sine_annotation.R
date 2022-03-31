@@ -1,4 +1,4 @@
-str1_dist_l=str1_dist_s=str2_dist_l=str2_dist_s=line_dist=sine_dist=NULL
+str1_dist_l=str1_dist_s=str2_dist_l=str2_dist_s=line_dist=sine_dist=LINE_dt=SINE_dt=NULL
 #' Line repeatmaskers
 #'
 #' repeat masker line elements in hg38
@@ -69,12 +69,13 @@ check_reformat = function(i, df){
 #' @title annotates the closest line element
 #' @param i iteration value
 #' @param bedpe_l ordered bedpe from \link[InProgress]{check_reformat}
+#' @param LINE_dt line elements
 #' @return data.table with closest line element distance
 #' @description Annotates the distance to closest line element
 #' @import data.table
 #' @keywords internal
 #' 
-find_closest_match_line = function(i, bedpe_l){
+find_closest_match_line = function(i, bedpe_l, LINE_dt = NULL){
   row_l <- bedpe_l[i,]
   
   ### both bedpe and ref should be sorted so lower bkpt comes first 
@@ -99,12 +100,13 @@ find_closest_match_line = function(i, bedpe_l){
 #' @title annotates the closest sine element
 #' @param i iteration value
 #' @param bedpe_s ordered bedpe from \link[InProgress]{check_reformat}
+#' @param SINE_dt sine elements
 #' @return data.table with closest sine element distance
 #' @description Annotates the distance to closest sine element
 #' @import data.table
 #' @keywords internal
 #' 
-find_closest_match_sine = function(i, bedpe_s){
+find_closest_match_sine = function(i, bedpe_s, SINE_dt = NULL){
   row_s <- bedpe_s[i,]
   
   ### both bedpe and ref should be sorted so lower bkpt comes first 
@@ -146,8 +148,10 @@ closest_line_sine = function(bp = NULL, genome = NULL, cores = 1) {
   }
 
   if(as.character(genome) == 'hg19') {
-    LINE_dt = GRanges(LINE_dt_hg19$V1, IRanges(LINE_dt_hg19$V2, LINE_dt_hg19$V3))
-    SINE_dt = GRanges(SINE_dt_hg19$V1, IRanges(SINE_dt_hg19$V2, SINE_dt_hg19$V3))
+    LINE_dt = LINE_dt_hg19
+    colnames(LINE_dt)[1:3] <- c('seqnames','start','end')
+    SINE_dt = SINE_dt_hg19
+    colnames(SINE_dt)[1:3] <- c('seqnames','start','end')
   } else if(as.character(genome) == 'hg38') {
     LINE_dt = LINE_dt_hg38
     SINE_dt = LINE_dt_hg38
@@ -163,11 +167,11 @@ closest_line_sine = function(bp = NULL, genome = NULL, cores = 1) {
   bp_ord[chrom1 == 24, chrom1 := "Y"]
   bp_ord[chrom2 == 24, chrom2 := "Y"]
   cat("Comparing against LINE elements...")
-  line_annotated <- rbindlist(mclapply(1:nrow(bp_ord), find_closest_match_line, bp_ord, mc.cores = cores))
+  line_annotated <- rbindlist(mclapply(1:nrow(bp_ord), find_closest_match_line, bp_ord, LINE_dt = LINE_dt, mc.cores = cores))
   cat("done.\n")
   
   cat("Comparing against SINE elements...")
-  sine_line_annotated <- rbindlist(mclapply(1:nrow(line_annotated), find_closest_match_sine, line_annotated, mc.cores = cores))
+  sine_line_annotated <- rbindlist(mclapply(1:nrow(line_annotated), find_closest_match_sine, line_annotated, SINE_dt = SINE_dt, mc.cores = cores))
   cat("done.\n")
   
   return(sine_line_annotated)

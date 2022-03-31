@@ -4,12 +4,14 @@
 \alias{fuzzy_filter_germline}
 \title{Distance to closest germline annotator}
 \usage{
-fuzzy_filter_germline(itter = NULL, bed = NULL)
+fuzzy_filter_germline(itter = NULL, bed = NULL, g = NULL)
 }
 \arguments{
 \item{itter}{passed from mclapply to iterate}
 
 \item{bed}{Bedpe returned from annotate_sv function}
+
+\item{g}{genome passed}
 }
 \value{
 SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference

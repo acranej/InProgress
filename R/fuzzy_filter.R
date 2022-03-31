@@ -1,4 +1,4 @@
-chrom1=chrom2=str_dist=end_dist=gnomad_dist=start=end=NULL
+chrom1=chrom2=str_dist=end_dist=gnomad_dist=start=end=gnomad_germline=NULL
 #' gNOMAD dataset to fuzzy filter
 #'
 #' gNOMAd v2.1 control sites lifted over to hg38
@@ -22,6 +22,7 @@ gnomad_germline_hg19all = fread(system.file('extdata', 'gnomad_germline_hg19all.
 #' @title Distance to closest germline annotator
 #' @param itter passed from mclapply to iterate
 #' @param bed Bedpe returned from annotate_sv function
+#' @param g genome passed
 #' @return SV data table with columns added indicating germline or somatic, germline is defined as <=1kbp away from agnostic perfect match in reference
 #' @description 
 #' 
@@ -29,7 +30,7 @@ gnomad_germline_hg19all = fread(system.file('extdata', 'gnomad_germline_hg19all.
 #' 
 #' @import data.table 
 #' @keywords internal
-fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
+fuzzy_filter_germline = function(itter = NULL, bed = NULL, g = NULL) {
   sub <- bed[itter,]
   ## reorder for filtering
   if(sub$chrom1 > sub$chrom2) {
@@ -45,7 +46,7 @@ fuzzy_filter_germline = function(itter = NULL, bed = NULL) {
   sub_ord[chrom1 == "Y", chrom1 := 24]
   sub_ord[chrom2 == "Y", chrom2 := 24]
   ### subset reference to matching chromosome
-  ref_sub <- gnomad_germline[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
+  ref_sub <- g[chrom1 == sub_ord$chrom1 & chrom2 == sub_ord$chrom2]
   ### calculate distances
   ref_sub[,str_dist := abs(start - as.numeric(as.character(sub_ord$start1)))]
   ref_sub[,end_dist := abs(end - as.numeric(as.character(sub_ord$start2)))]
@@ -89,7 +90,7 @@ closest_germline = function(bp = NULL, cores = 1, genome = NULL) {
   }
   
   cat("Comparing against known germline...")
-  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, mc.cores = cores))
+  annotated_bedpe <- rbindlist(mclapply(1:nrow(bp), fuzzy_filter_germline, bp, g = gnomad_germline, mc.cores = cores))
   cat("done.\n")
   return(annotated_bedpe)
 }

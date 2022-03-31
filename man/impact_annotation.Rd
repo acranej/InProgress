@@ -4,7 +4,7 @@
 \alias{impact_annotation}
 \title{Clqssificatiion decision tree for annotation}
 \usage{
-impact_annotation(i, bed)
+impact_annotation(i, bed, genelocations = NULL, exonlocations = NULL)
 }
 \arguments{
 \item{i}{itteration value}

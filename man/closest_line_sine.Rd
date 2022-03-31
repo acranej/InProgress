@@ -9,6 +9,8 @@ closest_line_sine(bp = NULL, genome = NULL, cores = 1)
 \arguments{
 \item{bp}{\href{https://bedtools.readthedocs.io/en/latest/content/general-usage.html#bedpe-format}{Bedpe} from \link[InProgress]{svaba_vcf2bedpe} or \link[InProgress]{manta_vcf2bedpe}}
 
+\item{genome}{run under hg19 or hg38}
+
 \item{cores}{Number of cores to run on, default is 1}
 }
 \value{

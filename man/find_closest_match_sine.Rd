@@ -4,12 +4,14 @@
 \alias{find_closest_match_sine}
 \title{annotates the closest sine element}
 \usage{
-find_closest_match_sine(i, bedpe_s)
+find_closest_match_sine(i, bedpe_s, SINE_dt = NULL)
 }
 \arguments{
 \item{i}{iteration value}
 
 \item{bedpe_s}{ordered bedpe from \link[InProgress]{check_reformat}}
+
+\item{SINE_dt}{sine elements}
 }
 \value{
 data.table with closest sine element distance

@@ -4,12 +4,14 @@
 \alias{find_closest_match_line}
 \title{annotates the closest line element}
 \usage{
-find_closest_match_line(i, bedpe_l)
+find_closest_match_line(i, bedpe_l, LINE_dt = NULL)
 }
 \arguments{
 \item{i}{iteration value}
 
 \item{bedpe_l}{ordered bedpe from \link[InProgress]{check_reformat}}
+
+\item{LINE_dt}{line elements}
 }
 \value{
 data.table with closest line element distance

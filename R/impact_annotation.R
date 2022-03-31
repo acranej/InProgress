@@ -1,4 +1,4 @@
-
+genelocations=exonlocations=NULL
 #' Gencode gene coordinates, subset to protein coding
 #'
 #' Gene coordinates hg38
@@ -32,7 +32,7 @@ hg38_ensembl_exonlocations = readRDS(system.file("extdata","hg38_exonRanges.rds"
 #' Ensembl exon coordinates
 #'
 #' Exon coordinates hg19
-#' @name hg19_ensembl_exonlocations
+#' @name hg19_exonlocations
 #' @docType data
 #' @keywords data internal
 #' @format \code{data.table}
@@ -52,7 +52,7 @@ hg19_exonlocations = readRDS(system.file("extdata","hg19_exonRanges.rds", packag
 #' @import GenomicRanges
 #' @keywords internal
 
-impact_annotation = function(i, bed) {
+impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL) {
   sub <- bed[i,]
   
   ### TRA if SV is translocations
@@ -159,7 +159,7 @@ funct_annot = function(bp = NULL, genome = NULL, cores = 1) {
     stop('Please state hg19 or hg38 as genome')
   }
   cat("Annotating SVs...")
-  funct_annot_bp <- rbindlist(mclapply(1:nrow(bp), impact_annotation, bp, mc.cores = cores))
+  funct_annot_bp <- rbindlist(mclapply(1:nrow(bp), impact_annotation, bp, genelocations = genelocations, exonlocations = exonlocations, mc.cores = cores))
   cat("done.\n")
   return(funct_annot_bp)
 }
