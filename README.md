@@ -1,4 +1,4 @@
-# InProgress
+# InProgress Overview
 This pacakge is designed to take MANTA or SvABA VCF files which have been run without a paired normal and classify each rearrangement as germline or somatic. 
 
 # System Requirements and Dependencies
