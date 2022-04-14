@@ -111,15 +111,15 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
     if(exons_impacted_in_bp_genes == 0 & length(genes_overlapped) == 1) {
       sub <- cbind(sub, funct_annot = "Intron")
       return(sub)
-    } else if (length(genes_overlapped) == 1 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
+    } else if(length(genes_overlapped) == 1 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
       sub <- cbind(sub, funct_annot = "CN")
-    return(sub)
-    } else if (length(genes_overlapped) == 1 & sub$svtype %in% c('h2hINV', 't2tINV','INV') & bp1_bp2_gene_count == 0) {
+      return(sub)
+    } else if(length(genes_overlapped) == 1 & sub$svtype %in% c('h2hINV', 't2tINV','INV') & bp1_bp2_gene_count == 0) {
       sub <- cbind(sub, funct_annot = "INV")
-    return(sub)
+      return(sub)
     } else {
       sub <- cbind(sub, funct_annot = "")
-    return(sub)
+      return(sub)
     }
   }
 }
