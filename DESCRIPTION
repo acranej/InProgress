@@ -14,7 +14,7 @@ Remotes:
     bioc::3.10/S4Vectors,
     bioc::3.10/GenomicRanges
 Depends:
-    R (>= 4.0.0),
+    R (>= 3.5.0),
     data.table (>= 1.10),
     gUtils,
     GenomicRanges,
