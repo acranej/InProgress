@@ -72,8 +72,8 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
   bp1_gene <- genelocations %&% bp1_gr
   bp2_gene <- genelocations %&% bp2_gr
   bp1_bp2_gene_count <- length(bp1_gene) + length(bp2_gene)
- 
-   ### if there is no gene overlap, there will be no exon overlap, so this is non_protein coding
+  
+  ### if there is no gene overlap, there will be no exon overlap, so this is non_protein coding
   if(length(genes_overlapped) == 0) {
     sub <- cbind(sub, funct_annot = "Non_Coding")
     return(sub)
@@ -113,11 +113,17 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
       return(sub)
     }
     
+  } else if (length(genes_overlapped) == 1 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
+      sub <- cbind(sub, funct_annot = "CN")
+    return(sub)
+  } else if (length(genes_overlapped) == 1 & sub$svtype %in% c('h2hINV', 't2tINV','INV') & bp1_bp2_gene_count == 0) {
+      sub <- cbind(sub, funct_annot = "INV")
+    return(sub)
   } else {
-    sub <- cbind(sub, funct_annot = "")
+      sub <- cbind(sub, funct_annot = "")
     return(sub)
   }
-  
+
 }
 
 #' @name funct_annot 
