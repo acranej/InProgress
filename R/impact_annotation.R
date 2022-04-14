@@ -80,13 +80,13 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
   }
   
   ### if it overlaps more than 1  gene and is del/dup, then it has to have a CN impact 
-  if(length(genes_overlapped) > 0 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
+  if(length(genes_overlapped) > 1 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
     sub <- cbind(sub, funct_annot = "CN")
     return(sub)
   }
   
   ### INV?? --> think about if this actually useful, kinda neutral event except regulatory elements?? idk, will ponder more
-  if(length(genes_overlapped) > 0 & sub$svtype %in% c('h2hINV', 't2tINV','INV') & bp1_bp2_gene_count == 0) {
+  if(length(genes_overlapped) > 1 & sub$svtype %in% c('h2hINV', 't2tINV','INV') & bp1_bp2_gene_count == 0) {
     sub <- cbind(sub, funct_annot = "INV")
     return(sub)
   }
@@ -113,15 +113,6 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
       return(sub)
     }
     
-    ### if it impacts no exons and spans multiple genes
-    if(exons_impacted_in_bp_genes == 0 & length(genes_overlapped) > 0 & sub$svtype %in% c('h2hINV', 't2tINV','INV')) {
-      sub <- cbind(sub, funct_annot = "INV")
-      return(sub)
-    }
-    if(exons_impacted_in_bp_genes == 0 & length(genes_overlapped) > 0 & sub$svtype %in% c('DEL','DUP')) {
-      sub <- cbind(sub, funct_annot = "CN")
-      return(sub)
-    }
   } else {
     sub <- cbind(sub, funct_annot = "")
     return(sub)
