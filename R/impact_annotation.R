@@ -108,7 +108,7 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
     }
     
     ## if it impacts no exons and is in only 1 gene it is intronic
-    if(exons_impacted_in_bp_genes == 0 & length(genes_overlapped) > 0) {
+    if(exons_impacted_in_bp_genes == 0) {
       sub <- cbind(sub, funct_annot = "Intron")
       return(sub)
     } else if(length(genes_overlapped) == 1 & sub$svtype %in% c('DEL','DUP') & bp1_bp2_gene_count == 0) {
@@ -121,7 +121,10 @@ impact_annotation = function(i, bed, genelocations = NULL, exonlocations = NULL)
       sub <- cbind(sub, funct_annot = "")
       return(sub)
     }
-  }
+  } else {
+   sub <- cbind(sub, funct_annot = "Missed")
+   return(sub)
+   }
 }
 
 #' @name funct_annot 
